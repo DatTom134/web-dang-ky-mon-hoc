@@ -9,6 +9,9 @@
 
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="https://mauweb.monamedia.net/greenuni/xmlrpc.php" />
+  <link rel="stylesheet" href="style.css">
+  <script src="javascript.js" defer></script>
+  
 
 	<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
     <title>Hong Bang University</title>
@@ -882,7 +885,7 @@ h1 {
                   
 <h3>Trường đại học quốc tế</h3>
 <h2 class="uppercase"><strong>Hồng Bàng</strong></h2>
-<p><span style="font-size: 120%;">Thành công của tương lai bắt đầu từ hôm nay</span></p>
+<p><span style="font-size: 120%;">Chọn Hồng Bàng vững vàng tương lai</span></p>
 <a class="button primary"  >
     <span>Tìm hiểu ngay</span>
   </a>
@@ -973,7 +976,7 @@ h1 {
                   
 <h3>Trường đại học quốc tế</h3>
 <h2 class="uppercase"><strong>Hồng Bàng</strong></h2>
-<p><span style="font-size: 120%;">Thành công của tương lai bắt đầu từ hôm nay</span></p>
+<p><span style="font-size: 120%;">Chọn Hồng Bàng vững vàng tương lai</span></p>
 <a class="button primary"  >
     <span>Tìm hiểu ngay</span>
   </a>
@@ -1598,7 +1601,7 @@ h1 {
           <h2 class="main-title">Đăng ký học phần</h2>
 
           <!-- Bộ lọc và tìm kiếm -->
-          <div class="row mb-4">
+          <div class="row mb-4 justify-content-center">
               <div class="col-md-4">
                   <select class="form-select" aria-label="Chọn Khoa">
                       <option selected>Chọn Khoa</option>
@@ -1615,9 +1618,9 @@ h1 {
                       <option value="3">Kỳ 3</option>
                   </select>
               </div>
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                   <input type="text" class="form-control" placeholder="Tìm kiếm khóa học">
-              </div>
+              </div> -->
           </div>
 
           <!-- Danh sách các học phần -->
@@ -1631,7 +1634,7 @@ h1 {
                           <th>Số tín chỉ</th>
                           <th>Thời gian học</th>
                           <th>Số lượng / Giới hạn</th>
-                          <th>Hành động</th>
+                          <th>Trạng thái</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -1642,7 +1645,7 @@ h1 {
                           <td>3</td>
                           <td>Thứ 2, 7:00 - 9:00</td>
                           <td>40 / 50</td>
-                          <td><button class="btn btn-success">Đăng ký</button></td>
+                          <td><button class="btn btn-success" onclick="isRegister(this)">Đăng ký</button></td>
                       </tr>
                       <tr>
                           <td>PHYS101</td>
@@ -1651,7 +1654,7 @@ h1 {
                           <td>4</td>
                           <td>Thứ 3, 9:00 - 11:00</td>
                           <td>35 / 50</td>
-                          <td><button class="btn btn-success">Đăng ký</button></td>
+                          <td><button class="btn btn-success" onclick="isRegister(this)">Đăng ký</button></td>
                       </tr>
                       <tr>
                           <td>CS102</td>
@@ -1660,7 +1663,7 @@ h1 {
                           <td>3</td>
                           <td>Thứ 5, 13:00 - 15:00</td>
                           <td>48 / 50</td>
-                          <td><button class="btn btn-success">Đăng ký</button></td>
+                          <td><button class="btn btn-success" onclick="isRegister(this)">Đăng ký</button></td>
                       </tr>
                   </tbody>
               </table>
@@ -1668,23 +1671,84 @@ h1 {
 
           <!-- Giỏ học phần đã chọn -->
           <div class="mt-4">
-              <h5>Giỏ học phần đã chọn</h5>
-              <ul class="list-group">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Toán Cao Cấp 1 (3 tín chỉ)
-                      <button class="btn btn-danger btn-sm">Xóa</button>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Tổng tín chỉ: <strong>3</strong>
+              <h5>Danh sách học phần đã chọn</h5>
+              <ul id="danh-sach-hoc-phan-da-dang-ky" class="list-group">
+                  <li id="tong-tin-chi" class="list-group-item d-flex justify-content-between align-items-center">
+                      Tổng tín chỉ: <strong>0</strong>
                   </li>
               </ul>
           </div>
 
           <!-- Nút xác nhận -->
-          <div class="action-button d-flex justify-content-end mt-4">
-              <button class="btn btn-primary">Xác nhận Đăng ký</button>
+          <div id="container-popup" class="action-button d-flex justify-content-end mt-4">
+              <button id="confirm-button" class="btn btn-primary">Xác nhận Đăng ký</button>
+
+              <!-- Popup -->
+              <div id="popup" class="popup-overlay">
+                <div class="popup-content">
+                    <h2>Xác nhận đăng ký</h2>
+                    <p>Bạn có chắc chắn muốn đăng ký không?</p>
+                    <button id="confirm-popup" class="btn btn-success">Xác nhận</button>
+                    <button id="cancel-popup" class="btn btn-danger">Huỷ</button>
+                </div>
+              </div>
+
+              <div id="myModal" class="modal" style="display: none;"></div>
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Chưa đăng ký bất kỳ học phần nào</p>
+                </div>
+              </div>
+          </div>
+
+          <div id="registered-hoc-phan" class="container mt-5" style="display: none;">
+            <!-- Title -->
+            <h2 class="main-title">Các học phần đã đăng ký</h2>
+
+            <div class="table-responsive">
+              <table id="table-list-course" class="table table-striped">
+                  <thead class="table-dark">
+                      <tr>
+                          <th>Mã học phần</th>
+                          <th>Tên học phần</th>
+                          <th>Giảng viên</th>
+                          <th>Số tín chỉ</th>
+                          <th>Thời gian học</th>
+                          <th>Số lượng / Giới hạn</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <!-- <tr>
+                          <td>MATH101</td>
+                          <td>Toán Cao Cấp 1</td>
+                          <td>Nguyễn Văn A</td>
+                          <td>3</td>
+                          <td>Thứ 2, 7:00 - 9:00</td>
+                          <td>40 / 50</td>
+                      </tr>
+                      <tr>
+                          <td>PHYS101</td>
+                          <td>Vật Lý Đại Cương 1</td>
+                          <td>Trần Văn B</td>
+                          <td>4</td>
+                          <td>Thứ 3, 9:00 - 11:00</td>
+                          <td>35 / 50</td>
+                      </tr>
+                      <tr>
+                          <td>CS102</td>
+                          <td>Lập Trình Căn Bản</td>
+                          <td>Đỗ Thị C</td>
+                          <td>3</td>
+                          <td>Thứ 5, 13:00 - 15:00</td>
+                          <td>48 / 50</td>
+                      </tr> -->
+                  </tbody>
+              </table>
+              <!-- Modal -->
+              
           </div>
         </div>
+      </div>
       <!-- Bootstrap JS -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
