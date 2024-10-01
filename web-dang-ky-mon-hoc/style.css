@@ -27,3 +27,109 @@
 .popup-content button {
     margin: 10px; /* Khoảng cách giữa các nút */
 }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f2f4f8;
+    margin: 0;
+    padding: 0;
+}
+
+header h1 {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+nav ul {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Main title */
+.main-title {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-align: center;
+    color: #333;
+}
+
+/* Form section */
+.form-select, .form-control {
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+}
+
+/* Table */
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 15px;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Buttons */
+.btn-success {
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-primary {
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-danger {
+    border-radius: 8px;
+}
+
+/* Basket section */
+.list-group-item {
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40; /* Màu từ code cũ */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+    .fa-angle-down {
+      font-size: 24px; /* Điều chỉnh kích thước biểu tượng cho mobile */
+    }
+  }
+  

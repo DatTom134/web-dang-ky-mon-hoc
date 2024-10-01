@@ -1,5 +1,6 @@
 let confirmed = false; 
 let tongTinChi = 0;
+let lstWaitCourse = [];
 let lstHocPhan = [];
 class HocPhan {
     constructor(maHocPhan, tenHocPhan, giangVien, soTinChi, thoiGianHoc, sl_gh, trangThai) { 
@@ -31,7 +32,7 @@ function isRegister(button){
         row.cells[5].textContent.split('/').map(Number),
         row.cells[6].querySelector('button').textContent
     );
-    lstHocPhan.push(hocPhan);
+    lstWaitCourse.push(hocPhan);
     // gọi phương thức để thêm môn học và tin chỉ của môn học vào danh sách đã đăng ký
     addToArray({ hocPhan, button });
 }
@@ -60,9 +61,9 @@ function addToArray(obj) {
     button.textContent = 'Xoá';
     button.classList.add('btn', 'btn-danger', 'btn-sm');
     button.onclick = function() {
-        let index = getIndexArray(lstHocPhan, obj.hocPhan);
+        let index = getIndexArray(lstWaitCourse, obj.hocPhan);
         if (index != -1) {
-            lstHocPhan.splice(index, 1);
+            lstWaitCourse.splice(index, 1);
             remove_hocphan_wait({ button, obj });
         } 
     }
@@ -104,6 +105,8 @@ function removeAllHocPhanWait() {
     li_tongTinChi.querySelector('strong').textContent = '0';
     ul.innerHTML = '';
     ul.appendChild(li_tongTinChi);
+    lstWaitCourse = [];
+    console.log(lstWaitCourse.length);
     // ul.appendChild(li_tongTinChi);
     // console.log(li_tongTinChi.textContent);
 }   
@@ -130,13 +133,18 @@ function changeRegisterButton(button) {
 }
 
 document.querySelector('#confirm-button').addEventListener('click', function() {
-    let popup = document.querySelector('#popup');
-    popup.style.display = 'flex'; // Hiển thị popup
+    if (lstWaitCourse.length > 0) {
+        let popup = document.querySelector('#popup');
+        popup.style.display = 'flex'; // Hiển thị popup
+    } else {
+        displayRefuse();
+    }
     console.log('đã click xác nhận đăng ký');
 });
 
 document.querySelector('#confirm-popup').addEventListener('click', function() {
     confirmed = true;
+    fromListToList(lstWaitCourse, lstHocPhan);
     removeAllHocPhanWait();
     // removeAllState();
     displayConfirm();
@@ -147,6 +155,12 @@ document.querySelector('#cancel-popup').addEventListener('click', function() {
     confirmed = false;
     document.querySelector('#popup').style.display = 'none'; // Đóng popup
 });
+
+function fromListToList(lstA, lstB) {
+    for (var i = 0; i < lstA.length; i++) { 
+        lstB.push(lstA[i]);
+    }
+}
 
 function displayConfirm() {
     console.log('đã click xác nhận');
@@ -190,6 +204,50 @@ function displayConfirm() {
     okButton.addEventListener('click', function() {
         document.querySelector('#registered-hoc-phan').style.display = 'table';
         fetchDataToTable();
+        divPopup.style.display = 'none';
+    });
+}
+
+function displayRefuse() {
+    console.log('đã click xác nhận');
+    let divPopup = Object.assign(
+        document.createElement('div'),
+        {
+            id: 'popup-refuse',
+            className: 'popup-overlay'
+        }
+    );
+    document.querySelector('#container-popup').insertBefore(divPopup, document.querySelector('#myModal'));
+    divPopup.style.display = 'flex';
+
+    let divConfirmlast = Object.assign(
+        document.createElement('div'),
+        {
+            className: 'popup-content',
+        }
+    );
+    divConfirmlast.appendChild(
+        Object.assign(
+            document.createElement('h2'),
+            { 
+                textContent: 'Danh sách đăng ký học phần rỗng' 
+            }
+        )
+    );
+    let okButton = Object.assign(
+        document.createElement('button'),
+        {
+            textContent: 'OK',
+            id: 'confirm-popup-ok',
+            className: 'btn btn-success'
+        }
+    ); 
+
+    divConfirmlast.appendChild(okButton);
+    
+    divPopup.appendChild(divConfirmlast);
+
+    okButton.addEventListener('click', function() {
         divPopup.style.display = 'none';
     });
 }
